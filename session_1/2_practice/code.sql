@@ -17,3 +17,4 @@ SELECT LibraryBranch.name,COUNT(Books.id) from LibraryBranch JOIN Books on Books
 SELECT Members.name,COUNT(Loans.id) from Members LEFT JOIN Loans on Loans.member_id=Members.id group by Members.name;
 SELECT Members.name,COUNT(Loans.id) from Members LEFT JOIN Loans on Loans.member_id=Members.id group by Members.name having COUNT(Loans.id)=0;
 SELECT LibraryBranch.name,COUNT(Loans.id) from LibraryBranch LEFT JOIN Books ON Books.branch_id=LibraryBranch.id LEFT JOIN Loans on Loans.book_id=Books.id  group by LibraryBranch.name; 
+SELECT Members.name from Members JOIN Loans ON Loans.member_id=Members.id WHERE return_date is NULL;
