@@ -13,7 +13,7 @@ DATE('now', '-14 days') /* you can add or subtract days */
 1. **List all loans**  
 Show book title, member name, and loan date.
 
-2. **Books and loans**  
+2. **Books and loans**   
 List all books and any loans associated with them.
 
 3. **Branches and books**  
@@ -39,3 +39,4 @@ List members who currently have at least one active loan.
 
 10. **Books and loans report**  
 Show all books and all loans, including books that were never loaned. Include a column classifying each row as “Loaned book” or “Unloaned book.”. You will need to look up how to do this (hint: a case statement would work).
+#
