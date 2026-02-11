@@ -1,3 +1,4 @@
+##
 import sqlite3
 
 # ==================================================
@@ -5,16 +6,50 @@ import sqlite3
 # ==================================================
 
 def total_customers(conn):
-    pass
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) AS total FROM customers")
+    total = cursor.fetchone()[0]
+
+    print(f"Total number of customers: {total}")
+    return total
 
 
 def customer_signup_range(conn):
-    pass
+    cursor = conn.cursor()
+    cursor.execute("SELECT MIN(signup_date) AS Earliest,MAX(signup_date) AS Latest from customers;")
+    row=cursor.fetchone()
+    Earliest= row[0]
+    Latest=row[1]
+    print("Customer Sign up date")
+    print(f"Earliest sign up date {Earliest}")
+    print(f"Latest sign up date {Latest}")
+
 
 
 def order_summary_stats(conn):
-    pass
+    cursor = conn.cursor()
 
+    cursor.execute("""
+        SELECT
+            COUNT(*),
+            AVG(order_total),
+            MAX(order_total),
+            MIN(order_total)
+        FROM orders
+    """)
+
+    row = cursor.fetchone()
+
+    total_orders = row[0]
+    avg_value = row[1]
+    highest_value = row[2]
+    lowest_value = row[3]
+
+    print("Order Summary Statistics")
+    print(f"Total number of orders:{total_orders}")
+    print(f"Average order value:{avg_value:}")
+    print(f"Highest order total:{highest_value}")
+    print(f"Lowest order total:{lowest_value}")
 
 def driver_summary(conn):
     pass

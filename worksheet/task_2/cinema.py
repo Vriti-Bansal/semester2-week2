@@ -6,7 +6,7 @@ You must NOT change the function definitions (names, arguments).
 You can run the functions you define in this file by using test.py (python test.py)
 Please do not add any additional code underneath these functions.
 """
-
+#
 import sqlite3
 
 
@@ -18,7 +18,10 @@ def customer_tickets(conn, customer_id):
     Include only tickets purchased by the given customer_id.
     Order results by film title alphabetically.
     """
-    pass
+    cursor=conn.cursor()
+    cursor.execute("SELECT films.title,screenings.screen,tickets.price from tickets JOIN  screenings on tickets.screening_id=screenings.screening_id JOIN fims ON films.film_id=screenings.film_id")
+    row=cursor.fetchall()
+    
 
 
 def screening_sales(conn):

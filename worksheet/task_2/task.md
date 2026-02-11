@@ -1,4 +1,4 @@
-# Portfolio Task - Cinema System
+# Portfolio Task - Cinema System#
 You are working with a small database used by a cinema booking system.
 
 The database contains the following tables:

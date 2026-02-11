@@ -7,7 +7,7 @@ python test.py
 
 You should not need to change any of this code, and you can see an example of the outputs in example_output.txt
 """
-
+#
 
 import sqlite3
 import sys
