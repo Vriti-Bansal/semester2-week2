@@ -1,12 +1,3 @@
-"""
-This is where you should write your code and this is what you need to upload to Gradescope for autograding.
-
-You must NOT change the function definitions (names, arguments).
-
-You can run the functions you define in this file by using test.py (python test.py)
-Please do not add any additional code underneath these functions.
-"""
-#
 import sqlite3
 
 
@@ -18,11 +9,16 @@ def customer_tickets(conn, customer_id):
     Include only tickets purchased by the given customer_id.
     Order results by film title alphabetically.
     """
-    cursor=conn.cursor()
-    cursor.execute("SELECT films.title,screenings.screen,tickets.price from tickets JOIN  screenings on tickets.screening_id=screenings.screening_id JOIN films ON films.film_id=screenings.film_id WHERE tickets.customer_id=? ORDER BY films.title ASC;")
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT films.title, screenings.screen, tickets.price
+        FROM tickets
+        JOIN screenings ON tickets.screening_id = screenings.screening_id
+        JOIN films ON films.film_id = screenings.film_id
+        WHERE tickets.customer_id = ?
+        ORDER BY films.title ASC
+    """, (customer_id,))
     return cursor.fetchall()
-    
-    
 
 
 def screening_sales(conn):
@@ -33,8 +29,17 @@ def screening_sales(conn):
     Include all screenings, even if tickets_sold is 0.
     Order results by tickets_sold descending.
     """
-    cursor=conn.cursor()
-    cursor.execute("SELECT screenings.screening_id,films.title,COUNT(tickets.ticket_id) from tickets  LEFT JOIN screenings ON tickets.screening_id=screenings.screening_id LEFT JOIN films ON films.films_id=screenings.film_id GROUP BY screenings.screening_id, films.title ORDER BY tickets_sold DESC;")
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT screenings.screening_id,
+               films.title,
+               COUNT(tickets.ticket_id) AS tickets_sold
+        FROM screenings
+        JOIN films ON screenings.film_id = films.film_id
+        LEFT JOIN tickets ON tickets.screening_id = screenings.screening_id
+        GROUP BY screenings.screening_id, films.title
+        ORDER BY tickets_sold DESC
+    """)
     return cursor.fetchall()
 
 
@@ -48,6 +53,14 @@ def top_customers_by_spend(conn, limit):
     Order by total_spent descending.
     Limit the number of rows returned to `limit`.
     """
-   cursor=conn.cursor()
-   cursor.execute("SELECT customers.customer_name,SUM(tickets.price)") AS total_spent   JOIN customers ON customers.customer_id = tickets.customer_id GROUP BY customers.customer_id, customers.customer_name ORDER BY total_spent DESC LIMIT ? """, (limit,)) 
-   return cursor.fetchall()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT customers.customer_name,
+               SUM(tickets.price) AS total_spent
+        FROM tickets
+        JOIN customers ON customers.customer_id = tickets.customer_id
+        GROUP BY customers.customer_id, customers.customer_name
+        ORDER BY total_spent DESC
+        LIMIT ?
+    """, (limit,))
+    return cursor.fetchall()
